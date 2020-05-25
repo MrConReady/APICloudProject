@@ -64,7 +64,14 @@
 </body>
 <script>
 apiready = function(){
-        
+    var iAd = api.require('iAd');
+    var iAd = iAd.getIDFA({
+                          lowerCase:false
+                          },function(ret){
+                          if (ret.status) {
+                          api.alert({msg:JSON.stringify(ret)});
+                          }
+                          });
     openinstall = api.require('openinstall');
     api.addEventListener({
                          name: 'appintent'
