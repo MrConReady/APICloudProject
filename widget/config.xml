@@ -30,5 +30,11 @@
 	<permission name="bootCompleted" />
 	<permission name="hardware" />
 	<permission name="contact" />
+	
+	<preference name="urlScheme" value="opafwz8n" />
+	
+	<feature name="openinstall">
+    		<param name="com.openinstall.APP_KEY" value="yd0mzt" />
+	</feature>
 
 </widget>
