@@ -41,17 +41,8 @@
     <preference name="debug" value="false"/>
 
     <preference name="iOS7StatusBarAppearance" value="true"/>
+
     <permission name="readPhoneState"/>
-
-    <permission name="call"/>
-
-    <permission name="sms"/>
-
-    <permission name="camera"/>
-
-    <permission name="record"/>
-
-    <permission name="location"/>
 
     <permission name="fileSystem"/>
 
@@ -61,12 +52,11 @@
 
     <permission name="hardware"/>
 
-    <permission name="contact"/>
-
     <preference name="urlScheme" value="opafwz8n"/>
 
     <feature name="openinstall">
         <param name="com.openinstall.APP_KEY" value="yd0mzt"/>
     </feature>
 
+    <meta-data name="com.openinstall.APP_KEY" value="yd0mzt" />
 </widget>
