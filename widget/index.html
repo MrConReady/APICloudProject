@@ -75,7 +75,10 @@
 <script>
 	apiready = function() {
 		var openinstall = api.require('openinstall');
-		if (api.systemType == api.ios) {
+		api.alert({
+			msg: api.systemType
+		});
+		if (api.systemType == "ios") {
 			var iAd = api.require('iAd');
 			var iAd = iAd.getIDFA({
 				lowerCase: false
@@ -86,7 +89,7 @@
 					});
 				}
 			});
-		} else if (api.systemType == api.android) {
+		} else if (api.systemType == "android") {
 			// 申请权限并初始化
 	    var permissions = [];
 	    permissions.push('phone-r');
