@@ -1,123 +1,158 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Module Develop</title>
-<meta charset="utf-8">
-<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-<style type="text/css">
-	html,body{
-		height: 100%
-	}
-	body{
-		background-color: #fff;
-	    margin: 0;
-	}
-	#wrap{
-	    height: 100%;
-	    position: relative;
-	}
-	#header{
-		background-color: #5082c2;
-		height: 44px;
-	    position: relative;
-	}
-	#header h1{
-	    font-size: 20px; 
-	    height: 44px; 
-	    line-height: 44px; 
-	    margin: 0em; 
-	    color: #fff;
-		margin-left: 100px;
-		margin-right: 100px;
-		text-align: center;
-	}
-    #main{
-        display: block;
-    }
-    a.button{
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
-        height: 36px;
-        margin: 8px;
-        background-color: rgba(240,240,240,1.0);
-        border-color: rgba(220,220,220,1.0);
-        border-width: 2px;
-        border-style: solid;
-	}
-    a.active{
-        background-color: rgba(240,240,240,0.6);
-	}
-</style>
+	<title>Module Develop</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<style type="text/css">
+		html,
+		body {
+			height: 100%
+		}
+
+		body {
+			background-color: #fff;
+			margin: 0;
+		}
+
+		#wrap {
+			height: 100%;
+			position: relative;
+		}
+
+		#header {
+			background-color: #5082c2;
+			height: 44px;
+			position: relative;
+		}
+
+		#header h1 {
+			font-size: 20px;
+			height: 44px;
+			line-height: 44px;
+			margin: 0em;
+			color: #fff;
+			margin-left: 100px;
+			margin-right: 100px;
+			text-align: center;
+		}
+
+		#main {
+			display: block;
+		}
+
+		a.button {
+			display: -webkit-box;
+			-webkit-box-pack: center;
+			-webkit-box-align: center;
+			height: 36px;
+			margin: 8px;
+			background-color: rgba(240, 240, 240, 1.0);
+			border-color: rgba(220, 220, 220, 1.0);
+			border-width: 2px;
+			border-style: solid;
+		}
+
+		a.active {
+			background-color: rgba(240, 240, 240, 0.6);
+		}
+	</style>
 </head>
+
 <body>
 	<div id="wrap">
-	    <header id="header">
-	    	<h1 id="title">openinstall</h1>
-	    </header>
-	    <div id="main">
-            <a class="button" tapmode="active" onclick="getInstall()">安装参数</a>
-            <a class="button" tapmode="active" onclick="reportRegister()">注册量统计</a>
-            <a class="button" tapmode="active" onclick="reportEffectPoint()">效果点统计</a>
-        </div>
-    </div>
+		<header id="header">
+			<h1 id="title">openinstall</h1>
+		</header>
+		<div id="main">
+			<a class="button" tapmode="active" onclick="getInstall()">安装参数</a>
+			<a class="button" tapmode="active" onclick="reportRegister()">注册量统计</a>
+			<a class="button" tapmode="active" onclick="reportEffectPoint()">效果点统计</a>
+		</div>
+	</div>
 </body>
 <script>
-apiready = function(){
-    var iAd = api.require('iAd');
-    var iAd = iAd.getIDFA({
-                          lowerCase:false
-                          },function(ret){
-                          if (ret.status) {
-                          api.alert({msg:JSON.stringify(ret)});
-                          }
-                          });
-    openinstall = api.require('openinstall');
-    api.addEventListener({
-                         name: 'appintent'
-                         }, function(ret, err) {
-                         openinstall.getWakeup({
-                                                "uri": ret
-                                                }, function(ret, err) {
-                                                alert(JSON.stringify(ret));
-                                                });
-                         });
+	apiready = function() {
+		var openinstall = api.require('openinstall');
+		if (api.systemType == api.ios) {
+			var iAd = api.require('iAd');
+			var iAd = iAd.getIDFA({
+				lowerCase: false
+			}, function(ret) {
+				if (ret.status) {
+					api.alert({
+						msg: JSON.stringify(ret)
+					});
+				}
+			});
+		} else if (api.systemType == api.android) {
+			// 申请权限并初始化
+	    var permissions = [];
+	    permissions.push('phone-r');
+	    var result = api.hasPermission({
+	        list: permissions
+	    });
+	    if(result && result[0] && !result[0].granted){
+	        //没有权限，去申请
+	        api.requestPermission({
+	            list: permissions,
+	            code: 100
+	        }, function(ret, err){
+	            //不管是否申请到权限都要调用初始化
+	            openinstall.init();
+	        });
+	    }else{
+	        openinstall.init();
+	    }
+		}
 
-};
+		api.addEventListener({
+			name: 'appintent'
+		}, function(ret, err) {
+			openinstall.getWakeup({
+				"uri": ret
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		});
+
+	};
 
 
-function getInstall(){
-    
-    var openinstall = api.require('openinstall');
-    openinstall.getInstall({
-                           timeout:10
-                           },function(ret, err){
-                           alert(JSON.stringify(ret));
-                           });
+	function getInstall() {
 
-};
+		var openinstall = api.require('openinstall');
+		openinstall.getInstall({
+			timeout: 10
+		}, function(ret, err) {
+			alert(JSON.stringify(ret));
+		});
 
-function reportRegister(){
-    
-    var demo = api.require('openinstall');
-    demo.reportRegister();
-    
-};
+	};
 
-function reportEffectPoint(){
-    
-    var demo = api.require('openinstall');
-    demo.reportEffectPoint({
-                           effectId:"effect_test",
-                           effectValue:1
-                           });
-                           
-                           
-};
+	function reportRegister() {
 
-function apiready() {
-    var header = document.getElementById('header');
-    header.style.paddingTop = api.safeArea.top + 'px';
-}
+		var demo = api.require('openinstall');
+		demo.reportRegister();
+
+	};
+
+	function reportEffectPoint() {
+
+		var demo = api.require('openinstall');
+		demo.reportEffectPoint({
+			effectId: "effect_test",
+			effectValue: 1
+		});
+
+
+	};
+
+	function apiready() {
+		var header = document.getElementById('header');
+		header.style.paddingTop = api.safeArea.top + 'px';
+	}
 </script>
+
 </html>
