@@ -84,9 +84,12 @@
 				lowerCase: false
 			}, function(ret) {
 				if (ret.status) {
-					api.alert({
-						msg: JSON.stringify(ret)
-					});
+                                  openinstall.setDeviceId({
+                                                          deviceId:ret
+                                                          });
+                                  api.alert({
+                                            msg: JSON.stringify(ret)
+                                            });
 				}
 			});
 		} else if (api.systemType == "android") {

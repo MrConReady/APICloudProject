@@ -55,7 +55,7 @@
     <preference name="urlScheme" value="opafwz8n"/>
 
     <feature name="openinstall">
-        <param name="com.openinstall.APP_KEY" value="yd0mzt"/>
+        <param name="com.openinstall.APP_KEY" value="kaxeb6"/>
     </feature>
 
     <meta-data name="com.openinstall.APP_KEY" value="yd0mzt" />
