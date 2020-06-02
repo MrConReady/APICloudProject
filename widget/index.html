@@ -85,7 +85,7 @@
 			}, function(ret) {
 				if (ret.status) {
                                   openinstall.setDeviceId({
-                                                          deviceId:ret('IDFA')
+                                                          deviceId:ret.IDFA
                                                           });
                                   api.alert({
                                             msg: JSON.stringify(ret)
