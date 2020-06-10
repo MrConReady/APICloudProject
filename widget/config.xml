@@ -51,12 +51,12 @@
     <permission name="bootCompleted"/>
 
     <permission name="hardware"/>
-    <!-- android:opt8cz32 ios:opafwz8n-->
-    <preference name="urlScheme" value="opt8cz32"/>
+    <!-- android:op82geuv ios:opafwz8n-->
+    <preference name="urlScheme" value="op82geuv"/>
 
     <feature name="openinstall">
         <param name="com.openinstall.APP_KEY" value="kaxeb6"/>
     </feature>
 
-    <meta-data name="com.openinstall.APP_KEY" value="yd0mzt" />
+    <meta-data name="com.openinstall.APP_KEY" value="s9yvm3" />
 </widget>
