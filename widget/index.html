@@ -79,50 +79,55 @@
 			msg: api.systemType
 		});
 		if (api.systemType == "ios") {
-            
-            //需要用到idfa时
+
+			//需要用到idfa时
 			var iAd = api.require('iAd');
 			var iAd = iAd.getIDFA({
 				lowerCase: false
 			}, function(ret) {
-                openinstall.init({
-                                  deviceId:ret.IDFA
-                                 });
+				openinstall.init({
+					deviceId: ret.IDFA
+				});
 			});
-            
-            //不用idfa时
-            //openinstall.init();
-            
+
+			//不用idfa时
+			//openinstall.init();
+
 		} else if (api.systemType == "android") {
 			// 申请权限并初始化
-	    var permissions = [];
-	    permissions.push('phone-r');
-	    var result = api.hasPermission({
-	        list: permissions
-	    });
-	    if(result && result[0] && !result[0].granted){
-	        //没有权限，去申请
-	        api.requestPermission({
-	            list: permissions,
-	            code: 100
-	        }, function(ret, err){
-	            //不管是否申请到权限都要调用初始化
-	            openinstall.init();
-	        });
-	    }else{
-	        openinstall.init();
-	    }
+			var permissions = [];
+			permissions.push('phone-r');
+			var result = api.hasPermission({
+				list: permissions
+			});
+			if (result && result[0] && !result[0].granted) {
+				//没有权限，去申请
+				api.requestPermission({
+					list: permissions,
+					code: 100
+				}, function(ret, err) {
+					//不管是否申请到权限都要调用初始化
+					openinstall.init();
+					registerWakeup();
+				});
+			} else {
+				openinstall.init();
+				registerWakeup();
+			}
 		}
 
-		api.addEventListener({
-			name: 'appintent'
-		}, function(ret, err) {
-			openinstall.getWakeup({
-				"uri": ret
+		function registerWakeup() {
+			api.addEventListener({
+				name: 'appintent'
 			}, function(ret, err) {
-				alert(JSON.stringify(ret));
+				openinstall.getWakeup({
+					"uri": ret
+				}, function(ret, err) {
+					alert(JSON.stringify(ret));
+				});
 			});
-		});
+		}
+
 
 	};
 
