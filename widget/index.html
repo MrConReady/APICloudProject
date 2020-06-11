@@ -101,30 +101,22 @@
 					code: 100
 				}, function(ret, err) {
 					//不管是否申请到权限都要调用初始化
-					openinstall.init(function(ret, err) {
-						alert(JSON.stringify(ret));
-					});
+					openinstall.init();
 				});
 			} else {
-				openinstall.init(function(ret, err) {
-					alert(JSON.stringify(ret));
-				});
+				openinstall.init();
 			}
 		}
-		registerWakeup();
 
-		function registerWakeup() {
-			api.addEventListener({
-				name: 'appintent'
+		api.addEventListener({
+			name: 'appintent'
+		}, function(ret, err) {
+			openinstall.getWakeup({
+				"uri": ret
 			}, function(ret, err) {
-				openinstall.getWakeup({
-					"uri": ret
-				}, function(ret, err) {
-					alert(JSON.stringify(ret));
-				});
+				alert(JSON.stringify(ret));
 			});
-		}
-
+		});
 
 	};
 
