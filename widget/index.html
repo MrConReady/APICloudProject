@@ -75,11 +75,7 @@
 <script>
 	apiready = function() {
 		var openinstall = api.require('openinstall');
-		api.alert({
-			msg: api.systemType
-		});
 		if (api.systemType == "ios") {
-
 			//需要用到idfa时
 			var iAd = api.require('iAd');
 			var iAd = iAd.getIDFA({
@@ -89,10 +85,8 @@
 					deviceId: ret.IDFA
 				});
 			});
-
 			//不用idfa时
 			//openinstall.init();
-
 		} else if (api.systemType == "android") {
 			// 申请权限并初始化
 			var permissions = [];
@@ -107,14 +101,17 @@
 					code: 100
 				}, function(ret, err) {
 					//不管是否申请到权限都要调用初始化
-					openinstall.init();
-					registerWakeup();
+					openinstall.init(function(ret, err) {
+						alert(JSON.stringify(ret));
+					});
 				});
 			} else {
-				openinstall.init();
-				registerWakeup();
+				openinstall.init(function(ret, err) {
+					alert(JSON.stringify(ret));
+				});
 			}
 		}
+		registerWakeup();
 
 		function registerWakeup() {
 			api.addEventListener({
