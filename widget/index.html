@@ -75,6 +75,22 @@
 <script>
 	apiready = function() {
 		var openinstall = api.require('openinstall');
+
+		// init();
+
+		api.addEventListener({
+			name: 'appintent'
+		}, function(ret, err) {
+			openinstall.getWakeup({
+				"uri": ret
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		});
+
+	};
+
+  function init(){
 		if (api.systemType == "ios") {
 			//需要用到idfa时
 			var iAd = api.require('iAd');
@@ -107,19 +123,7 @@
 				openinstall.init();
 			}
 		}
-
-		api.addEventListener({
-			name: 'appintent'
-		}, function(ret, err) {
-			openinstall.getWakeup({
-				"uri": ret
-			}, function(ret, err) {
-				alert(JSON.stringify(ret));
-			});
-		});
-
-	};
-
+	}
 
 	function getInstall() {
 
