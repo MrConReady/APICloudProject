@@ -76,7 +76,7 @@
 	apiready = function() {
 		var openinstall = api.require('openinstall');
 
-		// init();
+        init();
 
 		api.addEventListener({
 			name: 'appintent'
@@ -98,7 +98,8 @@
 				lowerCase: false
 			}, function(ret) {
 				openinstall.init({
-					deviceId: ret.IDFA
+					deviceId: ret.IDFA,
+                    ASA: true
 				});
 			});
 			//不用idfa时
