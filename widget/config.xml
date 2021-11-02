@@ -1,16 +1,16 @@
-<widget id="A6188211566499" version="0.0.1">
+<widget id="A6188211566499" version="1.0.0">
 
     <name>openinstall</name>
 
     <description>
 
-        Example For APICloud.
+        Example For openinstall module.
 
     </description>
 
-    <author email="developer@apicloud.com" href="http://www.apicloud.com">
+    <author email="dev@openinstall.com" href="https://www.openinstall.io">
 
-        Developer
+        openinstall Developer
 
     </author>
 
