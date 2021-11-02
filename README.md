@@ -3,6 +3,50 @@ openinstall 模块封装了openinstall平台的SDK，集成了携参安装，渠
 
 **模块地址**：https://www.apicloud.com/mod_detail/openinstall  
 **模块示例**：
+``` js
+	apiready = function() {
+		var openinstall = api.require('openinstall');
+		openinstall.init();
+		// 应用唤醒监听
+		api.addEventListener({
+			name: 'appintent'
+		}, function(ret, err) {
+			// 将唤醒数据传递给 openinstall 处理
+			openinstall.getWakeup({
+				"uri": ret
+			}, function(ret, err) {
+				alert(JSON.stringify(ret));
+			});
+		});
+
+	};
+
+	// 获取安装参数
+	function getInstall() {
+		var openinstall = api.require('openinstall');
+		openinstall.getInstall({
+			timeout: 10
+		}, function(ret, err) {
+			alert(JSON.stringify(ret));
+		});
+
+	};
+
+	// 注册统计（在用户完成APP注册流程后调用）
+	function reportRegister() {
+		var openinstall = api.require('openinstall');
+		openinstall.reportRegister();
+	};
+
+	// 效果点统计
+	function reportEffectPoint() {
+		var openinstall = api.require('openinstall');
+		openinstall.reportEffectPoint({
+			effectId: "effect_test",
+			effectValue: 1
+		});
+	};
+```
 
 ## 集成使用步骤
 1、前往 [openinstall 官网](https://www.openinstall.io/) 注册账号  
