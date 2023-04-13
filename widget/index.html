@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Module Develop</title>
+	<title>OpenInstall模块示例</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
 	<style type="text/css">
@@ -63,7 +63,7 @@
 <body>
 	<div id="wrap">
 		<header id="header">
-			<h1 id="title">openinstall</h1>
+			<h1 id="title">OpenInstall模块示例</h1>
 		</header>
 		<div id="main">
 			<a class="button" tapmode="active" onclick="getInstall()">安装参数</a>
@@ -77,11 +77,15 @@
 	apiready = function() {
 		var openinstall = api.require('openinstall');
 
-        init();
+		openinstall.init();
+		// 当使用了广告平台时，使用此段注释代码，移除上面的初始化代码
+		// initAd();
 
+		// 应用唤醒监听
 		api.addEventListener({
 			name: 'appintent'
 		}, function(ret, err) {
+			// 将唤醒数据传递给 openinstall 处理
 			openinstall.getWakeup({
 				"uri": ret
 			}, function(ret, err) {
@@ -91,7 +95,7 @@
 
 	};
 
-  function init(){
+	function initAd() {
 		if (api.systemType == "ios") {
 			//需要用到idfa时
 			//var iAd = api.require('iAd');
@@ -106,29 +110,38 @@
 			//不用idfa时
 			openinstall.init({ASA: false});
 		} else if (api.systemType == "android") {
-			// 申请权限并初始化
+			// 广告平台需要获取IMEI时，申请权限并初始化
 			var permissions = [];
 			permissions.push('phone-r');
 			var result = api.hasPermission({
 				list: permissions
 			});
 			if (result && result[0] && !result[0].granted) {
-				//没有权限，去申请
+				//没有权限，去申请，不管是否申请到权限都要调用初始化
 				api.requestPermission({
 					list: permissions,
 					code: 100
 				}, function(ret, err) {
-					//不管是否申请到权限都要调用初始化
+					// android广告平台配置
+					openinstall.config({
+						adEnabled: true,
+					});
+					// 初始化
 					openinstall.init();
 				});
 			} else {
+				// android广告平台配置
+				openinstall.config({
+					adEnabled: true,
+				});
+				// 初始化
 				openinstall.init();
 			}
 		}
 	}
 
+	// 获取安装参数
 	function getInstall() {
-
 		var openinstall = api.require('openinstall');
 		openinstall.getInstall({
 			timeout: 10
@@ -138,22 +151,19 @@
 
 	};
 
+	// 注册统计（在用户完成APP注册流程后调用）
 	function reportRegister() {
-
-		var demo = api.require('openinstall');
-		demo.reportRegister();
-
+		var openinstall = api.require('openinstall');
+		openinstall.reportRegister();
 	};
 
+	// 效果点统计
 	function reportEffectPoint() {
-
-		var demo = api.require('openinstall');
-		demo.reportEffectPoint({
+		var openinstall = api.require('openinstall');
+		openinstall.reportEffectPoint({
 			effectId: "effect_test",
 			effectValue: 1
 		});
-
-
 	};
     function reportShare() {
         var demo = api.require('openinstall');
