@@ -69,6 +69,7 @@
 			<a class="button" tapmode="active" onclick="getInstall()">安装参数</a>
 			<a class="button" tapmode="active" onclick="reportRegister()">注册量统计</a>
 			<a class="button" tapmode="active" onclick="reportEffectPoint()">效果点统计</a>
+            <a class="button" tapmode="active" onclick="reportShare()">裂变分享</a>
 		</div>
 	</div>
 </body>
@@ -93,17 +94,17 @@
   function init(){
 		if (api.systemType == "ios") {
 			//需要用到idfa时
-			var iAd = api.require('iAd');
-			var iAd = iAd.getIDFA({
-				lowerCase: false
-			}, function(ret) {
-				openinstall.init({
-					deviceId: ret.IDFA,
-                    ASA: true
-				});
-			});
+			//var iAd = api.require('iAd');
+			//var iAd = iAd.getIDFA({
+			//	lowerCase: false
+			//}, function(ret) {
+			//	openinstall.init({
+			//		deviceId: ret.IDFA,
+            //        ASA: true
+			//	});
+			//});
 			//不用idfa时
-			//openinstall.init();
+			openinstall.init({ASA: false});
 		} else if (api.systemType == "android") {
 			// 申请权限并初始化
 			var permissions = [];
@@ -154,6 +155,15 @@
 
 
 	};
+    function reportShare() {
+        var demo = api.require('openinstall');
+        demo.reportShare({
+           shareCode: "100002",
+           platform: "QQ"
+        },function(ret, err){
+            alert(JSON.stringify(ret));
+        });
+    }
 
 	function apiready() {
 		var header = document.getElementById('header');
